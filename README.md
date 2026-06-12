@@ -1,4 +1,6 @@
-🏫 Providence Heights Secondary School Website
+<h1 align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Poppins&weight=600&size=28&pause=1000&color=1E90FF&center=true&vCenter=true&width=700&lines=Providence+Heights+Secondary+School;Modern+Educational+Website;Built+by+GOJO.DEV" alt="Typing SVG" />
+</h1>
 
 <p align="center">
   <strong>A modern, responsive, and user-friendly website developed for Providence Heights Secondary School.</strong>
@@ -47,8 +49,9 @@ https://providence-heights.vercel.app
 
 ---
 
-📂 Project Structure
+## 📂 Project Structure
 
+```text
 Providence-Heights/
 ├── index.html
 ├── css/
@@ -56,6 +59,7 @@ Providence-Heights/
 ├── images/
 ├── assets/
 └── README.md
+```
 
 ---
 
