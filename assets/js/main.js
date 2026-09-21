@@ -31,19 +31,38 @@ if (yearSpan) {
 
 // Mobile menu toggle
 if (menuButton && navMenu) {
+  const menuLinks = navMenu.querySelectorAll("a");
+
+  const closeMobileMenu = ({ restoreFocus = false } = {}) => {
+    navMenu.classList.remove("is-open");
+    menuButton.classList.remove("is-open");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open navigation menu");
+
+    if (restoreFocus) {
+      menuButton.focus();
+    }
+  };
+
   menuButton.addEventListener("click", () => {
     const isOpen = navMenu.classList.toggle("is-open");
 
     menuButton.classList.toggle("is-open", isOpen);
     menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation menu" : "Open navigation menu"
+    );
   });
 
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      navMenu.classList.remove("is-open");
-      menuButton.classList.remove("is-open");
-      menuButton.setAttribute("aria-expanded", "false");
-    });
+  menuLinks.forEach((link) => {
+    link.addEventListener("click", () => closeMobileMenu());
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navMenu.classList.contains("is-open")) {
+      closeMobileMenu({ restoreFocus: true });
+    }
   });
 }
 
