@@ -1,5 +1,46 @@
 # Maintenance log
 
+## 2026-09-29 — Add reproducible navigation validation
+
+### Rationale
+
+The mobile-navigation behavior had been exercised with a temporary test harness,
+but the repository had no committed test command, lockfile, or CI workflow.
+Future changes could therefore regress menu state or keyboard behavior without a
+repeatable check.
+
+### Files changed
+
+- `test/site.test.js` — adds dependency-free regression coverage for navigation
+  markup, open/close state, the Admissions link, and Escape focus restoration.
+- `package.json` and `package-lock.json` — define reproducible syntax, test, and
+  combined validation commands without adding runtime dependencies.
+- `.github/workflows/validate.yml` — runs the locked validation suite with
+  read-only permissions, pinned actions, concurrency cancellation, and a timeout.
+- `.gitignore` — excludes local npm installation and debug output.
+- `README.md` — documents the local and hosted validation workflow.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- `npm ci`
+- `npm run validate`
+- Parsed the workflow as YAML and verified action pins and permissions.
+- `git diff --check`
+- Reviewed the complete diff for security, accessibility, backward
+  compatibility, repository conventions, and dependency changes.
+
+### Risk
+
+Low. The website's HTML, CSS, and runtime JavaScript are unchanged. The new
+files only validate the existing navigation contract and add CI with read-only
+repository access.
+
+### Rollback
+
+Revert the pull request's squash commit to remove the validation toolchain and
+workflow.
+
 ## 2026-09-21 — Mobile navigation keyboard behavior
 
 ### Rationale

@@ -1,0 +1,14 @@
+{
+  "name": "providence-heights-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static website for Providence Heights Secondary School",
+  "scripts": {
+    "check": "node --check assets/js/main.js && node --check test/site.test.js",
+    "test": "node --test",
+    "validate": "npm run check && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
