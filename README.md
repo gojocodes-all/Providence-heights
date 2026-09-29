@@ -63,6 +63,22 @@ Providence-Heights/
 
 ---
 
+## Development
+
+Install the locked toolchain and run the dependency-free validation suite:
+
+```bash
+npm ci
+npm run validate
+```
+
+The validation command syntax-checks the site JavaScript and runs regression
+tests for the mobile navigation's markup, visual state, accessible state,
+Admissions link, and Escape-key focus behavior. Pull requests and updates to
+`main` run the same checks in GitHub Actions.
+
+---
+
 🎯 Project Goals
 
 - Improve the school's online presence
