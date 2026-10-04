@@ -1,5 +1,46 @@
 # Maintenance log
 
+## 2026-10-04 — Make contact enquiries deliverable
+
+### Rationale
+
+The contact form intercepted submission, discarded the visitor's details, and
+displayed a development-only message saying that a backend still needed to be
+connected. Visitors could therefore complete every required field without
+actually sending an enquiry. The site already publishes the school's phone
+number, so the form now prepares a reviewable WhatsApp message for that
+documented contact channel.
+
+### Files changed
+
+- `index.html` — accurately labels the WhatsApp handoff and exposes progress
+  feedback as an accessible status message.
+- `assets/js/main.js` — validates non-blank text, formats the submitted
+  details, and navigates to the school's published WhatsApp number without
+  relying on a popup.
+- `test/site.test.js` — covers the form contract, trimmed message content,
+  destination, and whitespace-only rejection.
+- `README.md` — documents the expanded validation coverage.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- `npm ci`
+- `npm run validate` (JavaScript syntax checks and seven tests)
+- Reviewed the generated WhatsApp URL, encoded message, blank-input behavior,
+  accessibility status, and complete diff.
+
+### Risk
+
+Low. The change only replaces a non-delivering placeholder submission with a
+client-side handoff to the phone number already published on the page. No
+backend, dependency, tracking, or stored user data is introduced.
+
+### Rollback
+
+Revert the pull request's squash commit to restore the placeholder-only contact
+form behavior.
+
 ## 2026-09-29 — Add reproducible navigation validation
 
 ### Rationale

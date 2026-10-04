@@ -123,28 +123,64 @@ if (backToTopButton) {
   });
 }
 
-// Frontend-only form feedback
+// Send validated enquiries through the school's published WhatsApp number
 const contactForm = document.querySelector(".contact-form");
 
 if (contactForm) {
+  const formNote = contactForm.querySelector(".form-note");
+  const enquiryTypes = {
+    admissions: "Admissions",
+    boarding: "Boarding",
+    academics: "Academics",
+    alumni: "Alumni",
+    general: "General",
+  };
+
+  contactForm.addEventListener("input", (event) => {
+    event.target?.setCustomValidity?.("");
+  });
+
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const existingMessage = contactForm.querySelector(".form-success");
-    if (existingMessage) existingMessage.remove();
+    const fields = {
+      name: contactForm.elements.namedItem("name"),
+      email: contactForm.elements.namedItem("email"),
+      type: contactForm.elements.namedItem("type"),
+      message: contactForm.elements.namedItem("message"),
+    };
+    const requiredTextFields = [fields.name, fields.message];
+    const blankField = requiredTextFields.find(
+      (field) => !field.value.trim()
+    );
 
-    const message = document.createElement("p");
-    message.className = "form-success";
-    message.textContent =
-      "Your enquiry has been prepared. Connect this form to a backend or form service before launching the real site.";
+    if (blankField) {
+      blankField.setCustomValidity("Please enter a value that is not only spaces.");
+      blankField.reportValidity();
+      return;
+    }
 
-    message.style.padding = "14px 16px";
-    message.style.borderRadius = "14px";
-    message.style.background = "#f2ffd2";
-    message.style.fontWeight = "800";
-    message.style.color = "#17351f";
+    const fullName = fields.name.value.trim();
+    const email = fields.email.value.trim();
+    const enquiryType = enquiryTypes[fields.type.value] ?? fields.type.value;
+    const enquiryMessage = fields.message.value.trim();
+    const whatsappMessage = [
+      "Hello Providence Heights Secondary School,",
+      "",
+      `Name: ${fullName}`,
+      `Email: ${email}`,
+      `Enquiry type: ${enquiryType}`,
+      "",
+      enquiryMessage,
+    ].join("\n");
+    const whatsappUrl =
+      `https://wa.me/2349092802779?text=${encodeURIComponent(whatsappMessage)}`;
 
-    contactForm.appendChild(message);
+    if (formNote) {
+      formNote.textContent = "Opening your prepared enquiry in WhatsApp…";
+    }
+
+    window.location.assign(whatsappUrl);
   });
 }
 

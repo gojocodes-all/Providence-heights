@@ -73,9 +73,10 @@ npm run validate
 ```
 
 The validation command syntax-checks the site JavaScript and runs regression
-tests for the mobile navigation's markup, visual state, accessible state,
-Admissions link, and Escape-key focus behavior. Pull requests and updates to
-`main` run the same checks in GitHub Actions.
+tests for the mobile navigation and contact-enquiry flow, including accessible
+state, whitespace validation, WhatsApp message formatting, and safe external
+navigation. Pull requests and updates to `main` run the same checks in GitHub
+Actions.
 
 ---
 
