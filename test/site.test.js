@@ -168,6 +168,29 @@ test("navigation markup exposes its controlled menu and initial state", () => {
   assert.match(htmlSource, /class="nav-cta">Admissions<\/a>/);
 });
 
+test("every local page resource exists and unavailable photos use honest fallbacks", () => {
+  const localReferences = [...htmlSource.matchAll(/\b(?:src|href)="([^"]+)"/g)]
+    .map((match) => match[1])
+    .filter((reference) =>
+      !reference.startsWith("#") &&
+      !/^(?:https?:|tel:|mailto:)/.test(reference)
+    );
+
+  for (const reference of localReferences) {
+    assert.equal(
+      fs.existsSync(path.join(root, reference)),
+      true,
+      `Missing local resource: ${reference}`,
+    );
+  }
+
+  const unavailablePhotos = [
+    ...htmlSource.matchAll(/class="media-placeholder"[\s\S]*?aria-label="([^"]+ photo unavailable)"/g),
+  ];
+  assert.equal(unavailablePhotos.length, 9);
+  assert.doesNotMatch(htmlSource, /assets\/images\/(?:boarding-life|staff\/|gallery\/(?:assembly|clubs|students)|facilities\/(?:physics|chemistry)-lab)\.jpg/);
+});
+
 test("mobile navigation keeps visual and accessible state synchronized", () => {
   const { homeLink, menuButton, navMenu } = loadSiteScript();
 
