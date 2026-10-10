@@ -1,5 +1,42 @@
 # Maintenance log
 
+## 2026-10-10 — Replace broken photos with honest fallbacks
+
+### Rationale
+
+Nine image paths referenced files that are not committed to the repository,
+leaving broken-image icons across the facilities, staff, student-life,
+boarding, and gallery sections. The unavailable photos now render as neutral,
+accessible placeholders without substituting unrelated or fabricated images.
+
+### Files changed
+
+- `index.html` — replaces only missing image references with labelled fallback
+  elements while preserving the surrounding verified content.
+- `assets/css/style.css` — styles the shared fallback consistently with the
+  existing card design.
+- `test/site.test.js` — verifies every local page resource exists and locks the
+  intentional fallback count.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- `npm ci`
+- `npm run validate`
+- Verified all local `src` and `href` references against committed files.
+- Reviewed the complete diff for accessibility, responsive layout, security,
+  backward compatibility, and repository conventions.
+
+### Risk
+
+Low. The change removes failed network requests and broken-image UI without
+altering navigation, enquiry delivery, content, or existing verified photos.
+
+### Rollback
+
+Revert the pull request's squash commit to restore the previous missing-image
+references.
+
 ## 2026-10-04 — Make contact enquiries deliverable
 
 ### Rationale
