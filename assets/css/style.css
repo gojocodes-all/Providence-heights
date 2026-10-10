@@ -66,6 +66,24 @@ img {
   max-width: 100%;
 }
 
+.media-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  padding: 24px;
+  color: var(--green-800);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(216, 255, 95, 0.7), transparent 12rem),
+    linear-gradient(135deg, #efffc4, #fff2d8);
+  font-size: 0.9rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -810,7 +828,7 @@ button {
   transform: scale(1.06);
 }
 
-.life-card > div {
+.life-card > div:not(.media-placeholder) {
   position: absolute;
   inset: auto 18px 18px;
   padding: 20px;
