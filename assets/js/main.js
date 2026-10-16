@@ -72,46 +72,49 @@ window.addEventListener("scroll", () => {
   header.classList.toggle("is-scrolled", window.scrollY > 20);
 });
 
-// Reveal sections on scroll
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.14,
-    rootMargin: "0px 0px -40px 0px",
-  }
-);
-
-revealItems.forEach((item) => revealObserver.observe(item));
-
-// Active navigation link while scrolling
-const sections = [...document.querySelectorAll("main section[id]")];
-
-const activeLinkObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-
-      const id = entry.target.getAttribute("id");
-
-      navLinks.forEach((link) => {
-        const isCurrent = link.getAttribute("href") === `#${id}`;
-        link.classList.toggle("is-active", isCurrent);
+// Reveal sections and track the active link when observation is available.
+// Visibility is progressive enhancement: unsupported browsers keep all content usable.
+if (typeof IntersectionObserver === "function") {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
       });
-    });
-  },
-  {
-    threshold: 0.35,
-  }
-);
+    },
+    {
+      threshold: 0.14,
+      rootMargin: "0px 0px -40px 0px",
+    }
+  );
 
-sections.forEach((section) => activeLinkObserver.observe(section));
+  revealItems.forEach((item) => revealObserver.observe(item));
+
+  const sections = [...document.querySelectorAll("main section[id]")];
+  const activeLinkObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const id = entry.target.getAttribute("id");
+
+        navLinks.forEach((link) => {
+          const isCurrent = link.getAttribute("href") === `#${id}`;
+          link.classList.toggle("is-active", isCurrent);
+        });
+      });
+    },
+    {
+      threshold: 0.35,
+    }
+  );
+
+  sections.forEach((section) => activeLinkObserver.observe(section));
+} else {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
+}
 
 // Back to top button
 if (backToTopButton) {

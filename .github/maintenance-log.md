@@ -1,5 +1,46 @@
 # Maintenance log
 
+## 2026-10-16 — Keep page content usable without IntersectionObserver
+
+### Rationale
+
+Reveal animation styles hid most content before JavaScript ran, while the script
+unconditionally constructed `IntersectionObserver`. Browsers or embedded
+webviews without that API threw before the contact form and slider were wired,
+leaving sections invisible and interactions incomplete. Animation is now a
+progressive enhancement: content remains visible without JavaScript, and the
+script explicitly reveals it when observation is unavailable.
+
+### Files changed
+
+- `index.html` — marks JavaScript-enabled documents before styles load.
+- `assets/css/style.css` — limits initial reveal hiding to JavaScript-enabled
+  documents.
+- `assets/js/main.js` — feature-detects `IntersectionObserver` and fails open
+  without stopping later initialization.
+- `test/site.test.js` — covers visible fallback content and a working enquiry
+  handoff when the observer API is missing.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- Source-level progressive-enhancement assertions.
+- Unsupported-observer regression exercises content visibility and WhatsApp
+  enquiry initialization.
+- Full repository validation is required on the pull request before merge.
+
+### Risk
+
+Low. Supported browsers retain the existing reveal and active-navigation
+observers. Unsupported or JavaScript-disabled clients now see static content
+instead of hidden sections; no content, destination, dependency, or data flow
+changes.
+
+### Rollback
+
+Revert the pull request's squash commit to restore observer-only reveal
+initialization.
+
 ## 2026-10-10 — Replace broken photos with honest fallbacks
 
 ### Rationale

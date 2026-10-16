@@ -7,6 +7,7 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "..");
 const scriptSource = fs.readFileSync(path.join(root, "assets/js/main.js"), "utf8");
 const htmlSource = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const styleSource = fs.readFileSync(path.join(root, "assets/css/style.css"), "utf8");
 
 class FakeClassList {
   constructor() {
@@ -79,7 +80,7 @@ class FakeElement {
   }
 }
 
-function loadSiteScript() {
+function loadSiteScript({ intersectionObserver = true } = {}) {
   const homeLink = new FakeElement();
   homeLink.setAttribute("href", "#home");
   const admissionsLink = new FakeElement();
@@ -105,6 +106,7 @@ function loadSiteScript() {
     selector === ".form-note" ? formNote : null;
   const documentListeners = new Map();
   const assignedUrls = [];
+  const revealItems = [new FakeElement(), new FakeElement()];
   const selectors = new Map([
     [".menu-toggle", menuButton],
     [".nav-menu", navMenu],
@@ -120,6 +122,7 @@ function loadSiteScript() {
     },
     querySelectorAll(selector) {
       if (selector === ".nav-links a") return [homeLink];
+      if (selector === ".reveal") return revealItems;
       return [];
     },
   };
@@ -130,7 +133,7 @@ function loadSiteScript() {
 
   vm.runInNewContext(scriptSource, {
     Date,
-    IntersectionObserver: FakeIntersectionObserver,
+    IntersectionObserver: intersectionObserver ? FakeIntersectionObserver : undefined,
     document,
     window: {
       addEventListener() {},
@@ -156,8 +159,30 @@ function loadSiteScript() {
     homeLink,
     menuButton,
     navMenu,
+    revealItems,
   };
 }
+
+test("content and enquiry behavior fail open without IntersectionObserver", () => {
+  assert.match(
+    htmlSource,
+    /<script>document\.documentElement\.classList\.add\("js"\);<\/script>[\s\S]*?<link rel="stylesheet"/,
+  );
+  assert.match(styleSource, /\.js \.reveal \{[\s\S]*?opacity: 0;/);
+  assert.doesNotMatch(styleSource, /(?:^|\n)\.reveal \{/);
+
+  const { assignedUrls, contactForm, revealItems } = loadSiteScript({
+    intersectionObserver: false,
+  });
+
+  for (const item of revealItems) {
+    assert.equal(item.classList.contains("is-visible"), true);
+  }
+
+  contactForm.dispatch("submit", { preventDefault() {} });
+  assert.equal(assignedUrls.length, 1);
+  assert.equal(new URL(assignedUrls[0]).hostname, "wa.me");
+});
 
 test("navigation markup exposes its controlled menu and initial state", () => {
   assert.match(
