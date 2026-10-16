@@ -1134,7 +1134,7 @@ button {
 }
 
 /* ---------- REVEAL ANIMATION ---------- */
-.reveal {
+.js .reveal {
   opacity: 0;
   transform: translateY(22px);
   transition:
@@ -1142,7 +1142,7 @@ button {
     transform 0.65s ease;
 }
 
-.reveal.is-visible {
+.js .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
