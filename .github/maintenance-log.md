@@ -1,5 +1,44 @@
 # Maintenance log
 
+## 2026-10-21 — Defer offscreen image loading
+
+### Rationale
+
+The static page contained 17 image elements after the hero, representing about
+14.6 MB of unique media not needed for the initial viewport. Without native
+loading hints, browsers could request and decode the facilities, prefects,
+gallery, and footer imagery during the first page load. The hero is now
+explicitly prioritized while later media is deferred until it approaches the
+viewport.
+
+### Files changed
+
+- `index.html` — prioritizes the hero and applies native lazy loading plus
+  asynchronous decoding to every image after it.
+- `test/site.test.js` — locks the above-the-fold and offscreen loading contract.
+- `README.md` — documents the performance behavior and validation coverage.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- `npm ci`
+- `npm run validate`
+- Verified all 19 image elements: two initial-viewport images remain eager and
+  all 17 later images are deferred.
+- Reviewed the complete diff for accessibility, layout stability, browser
+  compatibility, security, and unchanged content.
+
+### Risk
+
+Low. Native loading and decoding hints are progressive enhancements; browsers
+that do not support them keep the existing behavior. Existing aspect-ratio
+containers preserve layout, and no image, content, analytics, dependency, or
+interaction changes.
+
+### Rollback
+
+Revert the pull request's squash commit to restore default image loading.
+
 ## 2026-10-16 — Keep page content usable without IntersectionObserver
 
 ### Rationale

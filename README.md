@@ -28,7 +28,7 @@ The website focuses on accessibility, responsiveness, clean design, and an intui
 - Staff and leadership profiles
 - Gallery section
 - Contact information
-- Fast loading performance
+- Prioritized hero loading and native lazy loading for offscreen photography
 - Mobile-friendly navigation
 
 ---
@@ -74,9 +74,9 @@ npm run validate
 
 The validation command syntax-checks the site JavaScript and runs regression
 tests for the mobile navigation and contact-enquiry flow, including accessible
-state, whitespace validation, WhatsApp message formatting, and safe external
-navigation. Pull requests and updates to `main` run the same checks in GitHub
-Actions.
+state, whitespace validation, WhatsApp message formatting, safe external
+navigation, and the image-loading priority contract. Pull requests and updates
+to `main` run the same checks in GitHub Actions.
 
 ---
 

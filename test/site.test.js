@@ -216,6 +216,35 @@ test("every local page resource exists and unavailable photos use honest fallbac
   assert.doesNotMatch(htmlSource, /assets\/images\/(?:boarding-life|staff\/|gallery\/(?:assembly|clubs|students)|facilities\/(?:physics|chemistry)-lab)\.jpg/);
 });
 
+test("image loading prioritizes the initial viewport and defers later media", () => {
+  const imageTags = [...htmlSource.matchAll(/<img\b[^>]*>/g)].map(
+    (match) => match[0],
+  );
+  assert.equal(imageTags.length, 19);
+
+  const [headerLogo, heroImage, ...offscreenImages] = imageTags;
+  assert.match(headerLogo, /class="brand__logo"/);
+  assert.doesNotMatch(headerLogo, /\bloading="lazy"/);
+  assert.match(heroImage, /src="assets\/images\/campus-hero\.jpg"/);
+  assert.match(heroImage, /\bloading="eager"/);
+  assert.match(heroImage, /\bfetchpriority="high"/);
+  assert.doesNotMatch(heroImage, /\bloading="lazy"/);
+
+  assert.equal(offscreenImages.length, 17);
+  for (const imageTag of offscreenImages) {
+    assert.match(
+      imageTag,
+      /\bloading="lazy"/,
+      `Expected offscreen image to load lazily: ${imageTag}`,
+    );
+    assert.match(
+      imageTag,
+      /\bdecoding="async"/,
+      `Expected offscreen image to decode asynchronously: ${imageTag}`,
+    );
+  }
+});
+
 test("mobile navigation keeps visual and accessible state synchronized", () => {
   const { homeLink, menuButton, navMenu } = loadSiteScript();
 
