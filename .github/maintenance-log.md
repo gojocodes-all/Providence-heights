@@ -1,5 +1,40 @@
 # Maintenance log
 
+## 2026-10-28 — Remove the stale stylesheet backup
+
+### Rationale
+
+`assets/css/style.css.bak` was an unreferenced 24 KB copy of an older
+stylesheet. Keeping it beside the live CSS duplicated obsolete implementation
+details and made it unclear which file should be maintained. The backup is now
+removed, backup artifacts are ignored, and validation prevents them from being
+reintroduced under `assets/`.
+
+### Files changed
+
+- `assets/css/style.css.bak` — removes the unused historical stylesheet copy.
+- `.gitignore` — excludes editor and manual `.bak` files.
+- `test/site.test.js` — rejects backup artifacts anywhere under `assets/`.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- `npm ci`
+- `npm run validate`
+- `git diff --check`
+- Reviewed the complete diff for active references, runtime behavior,
+  accessibility, security, and backward compatibility.
+
+### Risk
+
+Low. The deleted file was not loaded or referenced by the website, tests,
+documentation, or configuration. The live `assets/css/style.css` is unchanged.
+
+### Rollback
+
+Revert the pull request's squash commit to restore the backup file and remove
+the ignore rule and regression assertion.
+
 ## 2026-10-21 — Defer offscreen image loading
 
 ### Rationale
