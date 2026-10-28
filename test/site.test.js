@@ -216,6 +216,19 @@ test("every local page resource exists and unavailable photos use honest fallbac
   assert.doesNotMatch(htmlSource, /assets\/images\/(?:boarding-life|staff\/|gallery\/(?:assembly|clubs|students)|facilities\/(?:physics|chemistry)-lab)\.jpg/);
 });
 
+test("assets do not contain stale backup files", () => {
+  const findBackupFiles = (directory) =>
+    fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+      const entryPath = path.join(directory, entry.name);
+
+      if (entry.isDirectory()) return findBackupFiles(entryPath);
+      return entry.name.endsWith(".bak") ? [path.relative(root, entryPath)] : [];
+    });
+  const backupFiles = findBackupFiles(path.join(root, "assets"));
+
+  assert.deepEqual(backupFiles, []);
+});
+
 test("image loading prioritizes the initial viewport and defers later media", () => {
   const imageTags = [...htmlSource.matchAll(/<img\b[^>]*>/g)].map(
     (match) => match[0],
