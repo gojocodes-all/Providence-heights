@@ -80,7 +80,7 @@ class FakeElement {
   }
 }
 
-function loadSiteScript({ intersectionObserver = true } = {}) {
+function loadSiteScript({ intersectionObserver = true, reducedMotion = false } = {}) {
   const homeLink = new FakeElement();
   homeLink.setAttribute("href", "#home");
   const admissionsLink = new FakeElement();
@@ -90,6 +90,16 @@ function loadSiteScript({ intersectionObserver = true } = {}) {
   menuButton.setAttribute("aria-label", "Open navigation menu");
   const navMenu = new FakeElement({ links: [homeLink, admissionsLink] });
   const formNote = new FakeElement();
+  const backToTopButton = new FakeElement();
+  const prefectPrevButton = new FakeElement();
+  const prefectNextButton = new FakeElement();
+  const prefectScrollCalls = [];
+  const prefectScroller = new FakeElement();
+  prefectScroller.querySelector = (selector) =>
+    selector === ".profile-card"
+      ? { getBoundingClientRect: () => ({ width: 280 }) }
+      : null;
+  prefectScroller.scrollBy = (options) => prefectScrollCalls.push(options);
   const formFields = {
     name: new FakeElement({ value: "Ada Parent" }),
     email: new FakeElement({ value: "ada@example.com" }),
@@ -106,11 +116,16 @@ function loadSiteScript({ intersectionObserver = true } = {}) {
     selector === ".form-note" ? formNote : null;
   const documentListeners = new Map();
   const assignedUrls = [];
+  const windowScrollCalls = [];
   const revealItems = [new FakeElement(), new FakeElement()];
   const selectors = new Map([
     [".menu-toggle", menuButton],
     [".nav-menu", navMenu],
     [".contact-form", contactForm],
+    [".back-to-top", backToTopButton],
+    [".prefect-grid--scroll", prefectScroller],
+    [".prefect-prev", prefectPrevButton],
+    [".prefect-next", prefectNextButton],
   ]);
 
   const document = {
@@ -137,12 +152,18 @@ function loadSiteScript({ intersectionObserver = true } = {}) {
     document,
     window: {
       addEventListener() {},
+      matchMedia(query) {
+        assert.equal(query, "(prefers-reduced-motion: reduce)");
+        return { matches: reducedMotion };
+      },
       location: {
         assign(url) {
           assignedUrls.push(url);
         },
       },
-      scrollTo() {},
+      scrollTo(options) {
+        windowScrollCalls.push(options);
+      },
       scrollY: 0,
     },
   });
@@ -150,6 +171,7 @@ function loadSiteScript({ intersectionObserver = true } = {}) {
   return {
     admissionsLink,
     assignedUrls,
+    backToTopButton,
     contactForm,
     dispatchKey(key) {
       documentListeners.get("keydown")?.({ key });
@@ -159,7 +181,11 @@ function loadSiteScript({ intersectionObserver = true } = {}) {
     homeLink,
     menuButton,
     navMenu,
+    prefectNextButton,
+    prefectPrevButton,
+    prefectScrollCalls,
     revealItems,
+    windowScrollCalls,
   };
 }
 
@@ -182,6 +208,49 @@ test("content and enquiry behavior fail open without IntersectionObserver", () =
   contactForm.dispatch("submit", { preventDefault() {} });
   assert.equal(assignedUrls.length, 1);
   assert.equal(new URL(assignedUrls[0]).hostname, "wa.me");
+});
+
+test("reduced-motion visitors avoid animated page and slider scrolling", () => {
+  assert.match(
+    styleSource,
+    /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?scroll-behavior: auto;[\s\S]*?\.js \.reveal \{[\s\S]*?opacity: 1;[\s\S]*?transform: none;/,
+  );
+
+  const {
+    backToTopButton,
+    prefectNextButton,
+    prefectScrollCalls,
+    windowScrollCalls,
+  } = loadSiteScript({ reducedMotion: true });
+
+  backToTopButton.dispatch("click");
+  prefectNextButton.dispatch("click");
+
+  assert.equal(windowScrollCalls.length, 1);
+  assert.equal(windowScrollCalls[0].top, 0);
+  assert.equal(windowScrollCalls[0].behavior, "auto");
+  assert.equal(prefectScrollCalls.length, 1);
+  assert.equal(prefectScrollCalls[0].left, 298);
+  assert.equal(prefectScrollCalls[0].behavior, "auto");
+});
+
+test("default scrolling retains the existing smooth behavior", () => {
+  const {
+    backToTopButton,
+    prefectPrevButton,
+    prefectScrollCalls,
+    windowScrollCalls,
+  } = loadSiteScript();
+
+  backToTopButton.dispatch("click");
+  prefectPrevButton.dispatch("click");
+
+  assert.equal(windowScrollCalls.length, 1);
+  assert.equal(windowScrollCalls[0].top, 0);
+  assert.equal(windowScrollCalls[0].behavior, "smooth");
+  assert.equal(prefectScrollCalls.length, 1);
+  assert.equal(prefectScrollCalls[0].left, -298);
+  assert.equal(prefectScrollCalls[0].behavior, "smooth");
 });
 
 test("navigation markup exposes its controlled menu and initial state", () => {
