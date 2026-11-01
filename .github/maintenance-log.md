@@ -1,5 +1,44 @@
 # Maintenance log
 
+## 2026-11-01 — Respect reduced-motion preferences
+
+### Rationale
+
+The page forced smooth scrolling, reveal transforms, and transition effects for
+all visitors, including people whose operating-system preference requests less
+motion. The existing interactions now retain their current animation by default
+while switching to immediate scrolling and static reveal states when
+`prefers-reduced-motion: reduce` is active.
+
+### Files changed
+
+- `assets/css/style.css` — disables smooth scrolling and motion effects for the
+  reduced-motion media query while keeping content visible.
+- `assets/js/main.js` — chooses immediate scrolling for the back-to-top and
+  prefect controls when the visitor requests reduced motion.
+- `test/site.test.js` — verifies both reduced-motion and default scrolling
+  behavior plus the CSS accessibility fallback.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- `npm ci`
+- `npm run validate`
+- `git diff --check`
+- Reviewed the complete diff for accessibility, security, browser fallback,
+  responsive behavior, and backward compatibility.
+
+### Risk
+
+Low. The default experience is unchanged. The alternate behavior is activated
+only by a standard user preference, introduces no dependency or data flow, and
+falls back to the existing smooth behavior when `matchMedia` is unavailable.
+
+### Rollback
+
+Revert the pull request's squash commit to restore unconditional animations and
+smooth scrolling.
+
 ## 2026-10-28 — Remove the stale stylesheet backup
 
 ### Rationale

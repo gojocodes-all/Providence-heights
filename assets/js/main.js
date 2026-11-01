@@ -24,6 +24,12 @@ const revealItems = document.querySelectorAll(".reveal");
 const backToTopButton = document.querySelector(".back-to-top");
 const yearSpan = document.querySelector("#current-year");
 
+const getPreferredScrollBehavior = () =>
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+
 // Set current year automatically
 if (yearSpan) {
   yearSpan.textContent = new Date().getFullYear();
@@ -121,7 +127,7 @@ if (backToTopButton) {
   backToTopButton.addEventListener("click", () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: getPreferredScrollBehavior(),
     });
   });
 }
@@ -206,14 +212,14 @@ if (prefectScroller && prefectPrevButton && prefectNextButton) {
   prefectPrevButton.addEventListener("click", () => {
     prefectScroller.scrollBy({
       left: -getScrollAmount(),
-      behavior: "smooth",
+      behavior: getPreferredScrollBehavior(),
     });
   });
 
   prefectNextButton.addEventListener("click", () => {
     prefectScroller.scrollBy({
       left: getScrollAmount(),
-      behavior: "smooth",
+      behavior: getPreferredScrollBehavior(),
     });
   });
 }
