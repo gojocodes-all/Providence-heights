@@ -1,5 +1,46 @@
 # Maintenance log
 
+## 2026-11-07 — Correct committed-photo alternatives
+
+### Rationale
+
+Every committed facility, prefect, and gallery photo was still announced as a
+“placeholder” image. Three prefect portraits also exposed unrelated roles:
+the Sports Prefect Girl and Hostel Prefect were labelled as Health Prefects,
+and the Laboratory Prefect was labelled as a Sports Prefect. These alternatives
+gave screen-reader users inaccurate information even though the page already
+contains the correct names and roles.
+
+### Files changed
+
+- `index.html` — replaces placeholder wording with concise alternatives derived
+  from the existing facility, role, name, and gallery labels.
+- `test/site.test.js` — rejects placeholder alternatives and locks the three
+  previously mismatched prefect portraits to their visible roles and names.
+- `README.md` — documents the expanded accessibility validation contract.
+- `.github/maintenance-log.md` — records this maintenance work.
+
+### Validation
+
+- Reproduced the inaccurate alternatives with a focused failing regression
+  test before changing the page.
+- Ran `npm run validate`: JavaScript syntax checks and all 14 Node.js tests
+  passed.
+- Ran `git diff --check` and reviewed the complete diff for accessible names,
+  factual accuracy, responsive behavior, privacy, and backward compatibility.
+
+### Risk
+
+Low. Image files, visible copy, layout, loading behavior, navigation, analytics,
+and enquiry delivery are unchanged. The patch only corrects text exposed to
+assistive technology using facts already visible beside each image.
+
+### Rollback
+
+Revert this pull request to restore the previous placeholder and mismatched
+alternatives and remove the regression assertion. No dependency, deployment,
+content-data, or configuration migration is required.
+
 ## 2026-11-01 — Respect reduced-motion preferences
 
 ### Rationale
