@@ -327,6 +327,32 @@ test("image loading prioritizes the initial viewport and defers later media", ()
   }
 });
 
+test("committed photos have accurate, non-placeholder alternatives", () => {
+  const imageAlternatives = new Map(
+    [...htmlSource.matchAll(/<img\b[^>]*src="([^"]+)"[^>]*alt="([^"]*)"[^>]*>/g)]
+      .map(([, source, alternative]) => [source, alternative]),
+  );
+
+  assert.equal(
+    [...imageAlternatives.values()].some((alternative) =>
+      /placeholder/i.test(alternative),
+    ),
+    false,
+  );
+  assert.equal(
+    imageAlternatives.get("assets/images/prefects/female-sports.jpg"),
+    "Sports Prefect Girl Babalola Halimat",
+  );
+  assert.equal(
+    imageAlternatives.get("assets/images/prefects/hostel.jpg"),
+    "Hostel Prefect Adenuga Daniel",
+  );
+  assert.equal(
+    imageAlternatives.get("assets/images/prefects/lab.jpg"),
+    "Laboratory Prefect Omotara Tomisin",
+  );
+});
+
 test("mobile navigation keeps visual and accessible state synchronized", () => {
   const { homeLink, menuButton, navMenu } = loadSiteScript();
 
