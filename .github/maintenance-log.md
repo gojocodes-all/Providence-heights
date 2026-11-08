@@ -1,5 +1,42 @@
 # Maintenance log
 
+## 2026-11-08 — Align the repository guide with the current site
+
+### Rationale
+
+The README's project tree still listed nonexistent top-level `css/`, `js/`,
+and `images/` directories and did not document the committed tests, workflow,
+lockfile, or maintenance log. Its development section also omitted the static
+preview and deployment workflow, leaving contributors to infer the current
+layout and content-update boundaries from source.
+
+### Files changed
+
+- `README.md` — corrects the project tree and documents verified requirements,
+  local preview, content maintenance, validation, deployment, privacy, and
+  contribution expectations.
+- `.github/maintenance-log.md` — records this documentation change.
+
+### Validation
+
+- Cross-checked every documented path, command, runtime requirement, behavior,
+  deployment statement, and contact-data flow against the repository tree,
+  `package.json`, lockfile, workflow, HTML, CSS, JavaScript, and tests.
+- Ran `npm ci`, `npm run validate`, and `git diff --check`.
+- Reviewed the complete diff for factual accuracy, security, privacy,
+  accessibility, backward compatibility, and repository scope.
+
+### Risk
+
+Low. This change affects documentation only. Site behavior, content, media,
+analytics, dependencies, validation, deployment configuration, and legal terms
+are unchanged.
+
+### Rollback
+
+Revert this pull request's squash commit to restore the previous README and
+remove this maintenance entry; no runtime or deployment rollback is required.
+
 ## 2026-11-07 — Correct committed-photo alternatives
 
 ### Rationale
