@@ -23,7 +23,7 @@ The website focuses on accessibility, responsiveness, clean design, and an intui
 - Staff and leadership profiles
 - Gallery section
 - Contact information and a WhatsApp enquiry flow
-- Prioritized hero loading and native lazy loading for offscreen photography
+- Prioritized hero loading, intrinsic dimensions, and native lazy loading for photography
 - Mobile-friendly navigation
 - Reduced-motion support for reveal and scrolling effects
 

@@ -327,6 +327,44 @@ test("image loading prioritizes the initial viewport and defers later media", ()
   }
 });
 
+test("rendered images expose their verified intrinsic dimensions", () => {
+  const expectedDimensions = new Map([
+    ["assets/images/logo.png", [900, 900]],
+    ["assets/images/campus-hero.jpg", [1080, 810]],
+    ["assets/images/facilities/cbt-centre.jpg", [1448, 1086]],
+    ["assets/images/facilities/biology-lab.jpg", [1448, 1086]],
+    ["assets/images/prefects/head-boy.jpg", [1080, 864]],
+    ["assets/images/prefects/head-girl.jpg", [1920, 2560]],
+    ["assets/images/prefects/assistant-head-boy.jpg", [960, 1280]],
+    ["assets/images/prefects/assistant-head-girl.jpg", [960, 1280]],
+    ["assets/images/prefects/social-prefect.jpg", [1024, 1280]],
+    ["assets/images/prefects/male-sports.jpg", [960, 1280]],
+    ["assets/images/prefects/female-sports.jpg", [960, 1280]],
+    ["assets/images/prefects/hostel.jpg", [1122, 1402]],
+    ["assets/images/prefects/lab.jpg", [1920, 2560]],
+    ["assets/images/gallery/sports.jpg", [720, 1280]],
+    ["assets/images/gallery/graduation.jpg", [1448, 1086]],
+    ["assets/images/gallery/campus.jpg", [1080, 810]],
+    ["assets/images/gallery/classroom.jpg", [1448, 1086]],
+    ["assets/images/gallery/event.jpg", [1448, 1086]],
+  ]);
+  const imageTags = [...htmlSource.matchAll(/<img\b[^>]*>/g)].map(
+    (match) => match[0],
+  );
+
+  for (const imageTag of imageTags) {
+    const source = imageTag.match(/\bsrc="([^"]+)"/)?.[1];
+    const width = Number(imageTag.match(/\bwidth="(\d+)"/)?.[1]);
+    const height = Number(imageTag.match(/\bheight="(\d+)"/)?.[1]);
+
+    assert.deepEqual(
+      [width, height],
+      expectedDimensions.get(source),
+      `Incorrect intrinsic dimensions: ${imageTag}`,
+    );
+  }
+});
+
 test("committed photos have accurate, non-placeholder alternatives", () => {
   const imageAlternatives = new Map(
     [...htmlSource.matchAll(/<img\b[^>]*src="([^"]+)"[^>]*alt="([^"]*)"[^>]*>/g)]
