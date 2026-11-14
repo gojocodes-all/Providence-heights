@@ -1,5 +1,40 @@
 # Maintenance log
 
+## 2026-11-14 — Reserve image space before media loads
+
+### Rationale
+
+All 19 rendered images omitted intrinsic dimensions, so browsers could not use
+their verified aspect ratios while the files were loading. On slower mobile
+connections, content below those images could move as each asset decoded.
+
+### Files changed
+
+- `index.html` — adds the source width and height to every rendered image while
+  preserving existing responsive sizing, cropping, alternatives, and loading
+  priority.
+- `test/site.test.js` — protects the verified per-file dimension contract.
+- `README.md` — documents the intrinsic-dimension delivery behavior.
+- `.github/maintenance-log.md` — records this performance maintenance.
+
+### Validation
+
+- Verified every declared dimension against its committed PNG or JPEG source.
+- Ran `npm ci`, `npm run validate`, and `git diff --check`.
+- Reviewed the complete diff for responsive layout, accessibility, loading
+  priority, security, backward compatibility, and repository scope.
+
+### Risk
+
+Low. Image sources, responsive CSS, object-fit crops, visible dimensions,
+alternatives, eager/lazy loading, and page content are unchanged. The browser
+only gains aspect-ratio information before image decoding completes.
+
+### Rollback
+
+Revert this pull request to remove the intrinsic dimension attributes,
+regression coverage, documentation update, and maintenance entry.
+
 ## 2026-11-08 — Align the repository guide with the current site
 
 ### Rationale
