@@ -19,7 +19,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   />
 
   <link rel="icon" href="assets/images/logo.png" type="image/png" />
-  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
@@ -41,7 +40,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#home" class="brand" aria-label="Providence Heights Secondary School home">
         <span class="brand__logo-wrap">
           <!-- Add the real school logo at: assets/images/logo.png -->
-          <img src="assets/images/logo.png" alt="Providence Heights Secondary School logo" class="brand__logo" width="900" height="900" />
+          <img src="assets/images/logo.png" alt="Providence Heights Secondary School logo" class="brand__logo" />
           <span class="brand__mark brand__mark--fallback" aria-hidden="true">PH</span>
         </span>
 
@@ -51,13 +50,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </span>
       </a>
 
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open navigation menu"
-        aria-controls="nav-menu"
-        aria-expanded="false"
-      >
+      <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -87,7 +80,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="hero" id="home">
       <div class="hero__background">
         <!-- Replace this image with a real school/campus hero image -->
-        <img src="assets/images/campus-hero.jpg" alt="" width="1080" height="810" loading="eager" fetchpriority="high" />
+        <img src="assets/images/campus-hero.jpg" alt="" />
       </div>
 
       <div class="container hero__content reveal">
@@ -284,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="facilities-grid">
           <article class="facility-card facility-card--wide reveal">
             <div class="facility-card__image">
-              <img src="assets/images/facilities/cbt-centre.jpg" alt="Providence Heights CBT Centre" width="1448" height="1086" loading="lazy" decoding="async" />
+              <img src="assets/images/facilities/cbt-centre.jpg" alt="CBT Centre photo placeholder" />
             </div>
             <div class="facility-card__body">
               <p class="role">Digital Learning</p>
@@ -298,9 +291,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="facility-card reveal">
             <div class="facility-card__image">
-              <div class="media-placeholder" role="img" aria-label="Physics laboratory photo unavailable">
-                <span>Photo unavailable</span>
-              </div>
+              <img src="assets/images/facilities/physics-lab.jpg" alt="Physics laboratory photo placeholder" />
             </div>
             <div class="facility-card__body">
               <p class="role">Science</p>
@@ -314,9 +305,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="facility-card reveal">
             <div class="facility-card__image">
-              <div class="media-placeholder" role="img" aria-label="Chemistry laboratory photo unavailable">
-                <span>Photo unavailable</span>
-              </div>
+              <img src="assets/images/facilities/chemistry-lab.jpg" alt="Chemistry laboratory photo placeholder" />
             </div>
             <div class="facility-card__body">
               <p class="role">Science</p>
@@ -330,7 +319,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="facility-card reveal">
             <div class="facility-card__image">
-              <img src="assets/images/facilities/biology-lab.jpg" alt="Providence Heights biology laboratory" width="1448" height="1086" loading="lazy" decoding="async" />
+              <img src="assets/images/facilities/biology-lab.jpg" alt="Biology laboratory photo placeholder" />
             </div>
             <div class="facility-card__body">
               <p class="role">Science</p>
@@ -360,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <article class="profile-card profile-card--large reveal">
             <div class="profile-card__image">
               <!-- Replace with: assets/images/prefects/head-boy.jpg -->
-              <img src="assets/images/prefects/head-boy.jpg" alt="Head Boy Idanwhekai David" width="1080" height="864" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/head-boy.jpg" alt="Head Boy photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Head Boy</p>
@@ -375,7 +364,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <article class="profile-card profile-card--large reveal">
             <div class="profile-card__image">
               <!-- Replace with: assets/images/prefects/head-girl.jpg -->
-              <img src="assets/images/prefects/head-girl.jpg" alt="Head Girl Boyejo Opemipo" width="1920" height="2560" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/head-girl.jpg" alt="Head Girl photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Head Girl</p>
@@ -400,7 +389,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="prefect-grid prefect-grid--scroll" aria-label="Scrollable list of prefects" tabindex="0">
           <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/assistant-head-boy.jpg" alt="Assistant Head Boy Shobowale Emmanuel" width="960" height="1280" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/assistant-head-boy.jpg" alt="Assistant Head Boy photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Assistant Head Boy</p>
@@ -410,7 +399,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/assistant-head-girl.jpg" alt="Assistant Head Girl Shotunde Treasure" width="960" height="1280" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/assistant-head-girl.jpg" alt="Assistant Head Girl photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Assistant Head Girl</p>
@@ -420,7 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/social-prefect.jpg" alt="Social Prefect Girl Olayode Olamide" width="1024" height="1280" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/social-prefect.jpg" alt="Social Prefect photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Social Prefect Girl</p>
@@ -430,7 +419,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/male-sports.jpg" alt="Sports Prefect Boy Kushimo Ayomide" width="960" height="1280" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/male-sports.jpg" alt="Sports Prefect photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Sports Prefect Boy</p>
@@ -441,7 +430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/female-sports.jpg" alt="Sports Prefect Girl Babalola Halimat" width="960" height="1280" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/female-sports.jpg" alt="Health Prefect photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Sports Prefect Girl</p>
@@ -452,7 +441,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
          <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/hostel.jpg" alt="Hostel Prefect Adenuga Daniel" width="1122" height="1402" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/hostel.jpg" alt="Health Prefect photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Hostel Prefect</p>
@@ -464,7 +453,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           <article class="profile-card reveal">
             <div class="profile-card__image">
-              <img src="assets/images/prefects/lab.jpg" alt="Laboratory Prefect Omotara Tomisin" width="1920" height="2560" loading="lazy" decoding="async" />
+              <img src="assets/images/prefects/lab.jpg" alt="Sports Prefect photo placeholder" />
             </div>
             <div class="profile-card__body">
               <p class="role">Laboratory Prefect</p>
@@ -491,9 +480,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <article class="staff-card staff-card--principal reveal">
             <div class="staff-card__image">
               <!-- Replace with: assets/images/staff/principal.jpg -->
-              <div class="media-placeholder" role="img" aria-label="Principal photo unavailable">
-                <span>Photo unavailable</span>
-              </div>
+              <img src="assets/images/staff/principal.jpg" alt="Principal photo placeholder" />
             </div>
             <div class="staff-card__body">
               <p class="role">Principal</p>
@@ -507,9 +494,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <article class="staff-card reveal">
             <div class="staff-card__image">
               <!-- Replace with: assets/images/staff/vp-academics.jpg -->
-              <div class="media-placeholder" role="img" aria-label="Vice-Principal Academics photo unavailable">
-                <span>Photo unavailable</span>
-              </div>
+              <img src="assets/images/staff/vp-academics.jpg" alt="Vice Principal Academics photo placeholder" />
             </div>
             <div class="staff-card__body">
               <p class="role">Vice-Principal, Academics</p>
@@ -521,9 +506,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <article class="staff-card reveal">
             <div class="staff-card__image">
               <!-- Replace with: assets/images/staff/vp-admin.jpg -->
-              <div class="media-placeholder" role="img" aria-label="Vice-Principal Administrative photo unavailable">
-                <span>Photo unavailable</span>
-              </div>
+              <img src="assets/images/staff/vp-admin.jpg" alt="Vice Principal Administrative photo placeholder" />
             </div>
             <div class="staff-card__body">
               <p class="role">Vice-Principal, Administrative</p>
@@ -549,9 +532,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="life-grid">
           <article class="life-card reveal">
-            <div class="media-placeholder" role="img" aria-label="School assembly photo unavailable">
-              <span>Photo unavailable</span>
-            </div>
+            <img src="assets/images/gallery/assembly.jpg" alt="School assembly placeholder" />
             <div>
               <h3>Assemblies</h3>
               <p>Shared values, announcements, discipline, devotion and school identity.</p>
@@ -559,9 +540,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </article>
 
           <article class="life-card reveal">
-            <div class="media-placeholder" role="img" aria-label="Club activities photo unavailable">
-              <span>Photo unavailable</span>
-            </div>
+            <img src="assets/images/gallery/clubs.jpg" alt="Club activities placeholder" />
             <div>
               <h3>Extra Curricular Activities</h3>
               <p>Debate, press, music, drama, fellowship, and creative expression.</p>
@@ -569,7 +548,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </article>
 
           <article class="life-card reveal">
-            <img src="assets/images/gallery/sports.jpg" alt="Sports activities at Providence Heights" width="720" height="1280" loading="lazy" decoding="async" />
+            <img src="assets/images/gallery/sports.jpg" alt="Sports activities placeholder" />
             <div>
               <h3>Sports</h3>
               <p>Teamwork, competition, house pride, athletics, football and school spirit.</p>
@@ -577,7 +556,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </article>
 
           <article class="life-card reveal">
-            <img src="assets/images/gallery/graduation.jpg" alt="Providence Heights graduation ceremony" width="1448" height="1086" loading="lazy" decoding="async" />
+            <img src="assets/images/gallery/graduation.jpg" alt="Graduation ceremony placeholder" />
             <div>
               <h3>Graduation</h3>
               <p>Final-year memories, awards, send-forth, class identity and alumni beginnings.</p>
@@ -607,9 +586,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="image-panel reveal">
-          <div class="media-placeholder" role="img" aria-label="Boarding life photo unavailable">
-            <span>Photo unavailable</span>
-          </div>
+          <img src="assets/images/boarding-life.jpg" alt="Boarding life placeholder image" />
         </div>
       </div>
     </section>
@@ -661,26 +638,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="gallery-grid">
           <figure class="gallery-item gallery-item--wide reveal">
-            <img src="assets/images/gallery/campus.jpg" alt="Providence Heights campus" width="1080" height="810" loading="lazy" decoding="async" />
+            <img src="assets/images/gallery/campus.jpg" alt="Campus placeholder" />
             <figcaption>Campus</figcaption>
           </figure>
 
           <figure class="gallery-item reveal">
-            <img src="assets/images/gallery/classroom.jpg" alt="Classroom at Providence Heights" width="1448" height="1086" loading="lazy" decoding="async" />
+            <img src="assets/images/gallery/classroom.jpg" alt="Classroom placeholder" />
             <figcaption>Classroom</figcaption>
           </figure>
 
           
 
           <figure class="gallery-item reveal">
-            <img src="assets/images/gallery/event.jpg" alt="Providence Heights school event" width="1448" height="1086" loading="lazy" decoding="async" />
+            <img src="assets/images/gallery/event.jpg" alt="School event placeholder" />
             <figcaption>Events</figcaption>
           </figure>
 
           <figure class="gallery-item gallery-item--tall reveal">
-            <div class="media-placeholder" role="img" aria-label="Students photo unavailable">
-              <span>Photo unavailable</span>
-            </div>
+            <img src="assets/images/gallery/students.jpg" alt="Students placeholder" />
             <figcaption>Students</figcaption>
           </figure>
         </div>
@@ -720,7 +695,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <form class="contact-form reveal">
+        <form class="contact-form reveal" action="#" method="post">
           <h3>Quick Enquiry</h3>
 
           <label for="name">Full Name</label>
@@ -742,10 +717,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <label for="message">Message</label>
           <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
 
-          <button type="submit" class="btn btn--primary">Send via WhatsApp</button>
+          <button type="submit" class="btn btn--primary">Send Enquiry</button>
 
-          <p class="form-note" role="status" aria-live="polite">
-            Your details will open in WhatsApp. Review the message before sending.
+          <p class="form-note">
+            We'll get in touch with you.
           </p>
         </form>
       </div>
@@ -759,7 +734,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="#top" class="brand brand--footer">
           <span class="brand__logo-wrap">
             <!-- Add the real school logo at: assets/images/logo.png -->
-            <img src="assets/images/logo.png" alt="Providence Heights Secondary School logo" class="brand__logo" width="900" height="900" loading="lazy" decoding="async" />
+            <img src="assets/images/logo.png" alt="Providence Heights Secondary School logo" class="brand__logo" />
             <span class="brand__mark brand__mark--fallback" aria-hidden="true">PH</span>
           </span>
 
