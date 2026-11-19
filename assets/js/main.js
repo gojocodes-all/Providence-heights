@@ -24,12 +24,6 @@ const revealItems = document.querySelectorAll(".reveal");
 const backToTopButton = document.querySelector(".back-to-top");
 const yearSpan = document.querySelector("#current-year");
 
-const getPreferredScrollBehavior = () =>
-  typeof window.matchMedia === "function" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ? "auto"
-    : "smooth";
-
 // Set current year automatically
 if (yearSpan) {
   yearSpan.textContent = new Date().getFullYear();
@@ -37,38 +31,19 @@ if (yearSpan) {
 
 // Mobile menu toggle
 if (menuButton && navMenu) {
-  const menuLinks = navMenu.querySelectorAll("a");
-
-  const closeMobileMenu = ({ restoreFocus = false } = {}) => {
-    navMenu.classList.remove("is-open");
-    menuButton.classList.remove("is-open");
-    menuButton.setAttribute("aria-expanded", "false");
-    menuButton.setAttribute("aria-label", "Open navigation menu");
-
-    if (restoreFocus) {
-      menuButton.focus();
-    }
-  };
-
   menuButton.addEventListener("click", () => {
     const isOpen = navMenu.classList.toggle("is-open");
 
     menuButton.classList.toggle("is-open", isOpen);
     menuButton.setAttribute("aria-expanded", String(isOpen));
-    menuButton.setAttribute(
-      "aria-label",
-      isOpen ? "Close navigation menu" : "Open navigation menu"
-    );
   });
 
-  menuLinks.forEach((link) => {
-    link.addEventListener("click", () => closeMobileMenu());
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && navMenu.classList.contains("is-open")) {
-      closeMobileMenu({ restoreFocus: true });
-    }
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      navMenu.classList.remove("is-open");
+      menuButton.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
   });
 }
 
@@ -78,118 +53,79 @@ window.addEventListener("scroll", () => {
   header.classList.toggle("is-scrolled", window.scrollY > 20);
 });
 
-// Reveal sections and track the active link when observation is available.
-// Visibility is progressive enhancement: unsupported browsers keep all content usable.
-if (typeof IntersectionObserver === "function") {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        }
+// Reveal sections on scroll
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.14,
+    rootMargin: "0px 0px -40px 0px",
+  }
+);
+
+revealItems.forEach((item) => revealObserver.observe(item));
+
+// Active navigation link while scrolling
+const sections = [...document.querySelectorAll("main section[id]")];
+
+const activeLinkObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      const id = entry.target.getAttribute("id");
+
+      navLinks.forEach((link) => {
+        const isCurrent = link.getAttribute("href") === `#${id}`;
+        link.classList.toggle("is-active", isCurrent);
       });
-    },
-    {
-      threshold: 0.14,
-      rootMargin: "0px 0px -40px 0px",
-    }
-  );
+    });
+  },
+  {
+    threshold: 0.35,
+  }
+);
 
-  revealItems.forEach((item) => revealObserver.observe(item));
-
-  const sections = [...document.querySelectorAll("main section[id]")];
-  const activeLinkObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const id = entry.target.getAttribute("id");
-
-        navLinks.forEach((link) => {
-          const isCurrent = link.getAttribute("href") === `#${id}`;
-          link.classList.toggle("is-active", isCurrent);
-        });
-      });
-    },
-    {
-      threshold: 0.35,
-    }
-  );
-
-  sections.forEach((section) => activeLinkObserver.observe(section));
-} else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
-}
+sections.forEach((section) => activeLinkObserver.observe(section));
 
 // Back to top button
 if (backToTopButton) {
   backToTopButton.addEventListener("click", () => {
     window.scrollTo({
       top: 0,
-      behavior: getPreferredScrollBehavior(),
+      behavior: "smooth",
     });
   });
 }
 
-// Send validated enquiries through the school's published WhatsApp number
+// Frontend-only form feedback
 const contactForm = document.querySelector(".contact-form");
 
 if (contactForm) {
-  const formNote = contactForm.querySelector(".form-note");
-  const enquiryTypes = {
-    admissions: "Admissions",
-    boarding: "Boarding",
-    academics: "Academics",
-    alumni: "Alumni",
-    general: "General",
-  };
-
-  contactForm.addEventListener("input", (event) => {
-    event.target?.setCustomValidity?.("");
-  });
-
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const fields = {
-      name: contactForm.elements.namedItem("name"),
-      email: contactForm.elements.namedItem("email"),
-      type: contactForm.elements.namedItem("type"),
-      message: contactForm.elements.namedItem("message"),
-    };
-    const requiredTextFields = [fields.name, fields.message];
-    const blankField = requiredTextFields.find(
-      (field) => !field.value.trim()
-    );
+    const existingMessage = contactForm.querySelector(".form-success");
+    if (existingMessage) existingMessage.remove();
 
-    if (blankField) {
-      blankField.setCustomValidity("Please enter a value that is not only spaces.");
-      blankField.reportValidity();
-      return;
-    }
+    const message = document.createElement("p");
+    message.className = "form-success";
+    message.textContent =
+      "Your enquiry has been prepared. Connect this form to a backend or form service before launching the real site.";
 
-    const fullName = fields.name.value.trim();
-    const email = fields.email.value.trim();
-    const enquiryType = enquiryTypes[fields.type.value] ?? fields.type.value;
-    const enquiryMessage = fields.message.value.trim();
-    const whatsappMessage = [
-      "Hello Providence Heights Secondary School,",
-      "",
-      `Name: ${fullName}`,
-      `Email: ${email}`,
-      `Enquiry type: ${enquiryType}`,
-      "",
-      enquiryMessage,
-    ].join("\n");
-    const whatsappUrl =
-      `https://wa.me/2349092802779?text=${encodeURIComponent(whatsappMessage)}`;
+    message.style.padding = "14px 16px";
+    message.style.borderRadius = "14px";
+    message.style.background = "#f2ffd2";
+    message.style.fontWeight = "800";
+    message.style.color = "#17351f";
 
-    if (formNote) {
-      formNote.textContent = "Opening your prepared enquiry in WhatsApp…";
-    }
-
-    window.location.assign(whatsappUrl);
+    contactForm.appendChild(message);
   });
 }
 
@@ -212,14 +148,14 @@ if (prefectScroller && prefectPrevButton && prefectNextButton) {
   prefectPrevButton.addEventListener("click", () => {
     prefectScroller.scrollBy({
       left: -getScrollAmount(),
-      behavior: getPreferredScrollBehavior(),
+      behavior: "smooth",
     });
   });
 
   prefectNextButton.addEventListener("click", () => {
     prefectScroller.scrollBy({
       left: getScrollAmount(),
-      behavior: getPreferredScrollBehavior(),
+      behavior: "smooth",
     });
   });
 }
